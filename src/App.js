@@ -102,10 +102,14 @@ class App extends Component {
   }
   componentDidMount() {
     setTimeout(()=>{
-    this.setState({serverData: fakeServerData});
+      this.setState({serverData: fakeServerData});
   }, 1000);
+    setTimeout(()=>{
+      this.setState({filterString: 'Jams'});
+  }, 2000);
   }
   render() {
+
     return (
       <div className="App">
         {this.state.serverData.user ?
@@ -114,10 +118,11 @@ class App extends Component {
             {this.state.serverData.user.name}'s Playlists
         </h1> 
         <PlaylistCounter playlists={this.state.serverData.user.playlists}/>
-        <HoursCounter playlists={this.state.serverData.user.playlists}/>
-        
+        <HoursCounter playlists={this.state.serverData.user.playlists}/> 
         <Filter />
-        {this.state.serverData.user.playlists.map(playlist => 
+        {this.state.serverData.user.playlists.filter(playlist =>
+          playlist.name.includes(this.state.filterString)
+        ).map(playlist => 
          <Playlist playlist={playlist}/>
         )}
   
